@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const packageJson = require('./package.json');
 
 const TARGET = process.env.npm_lifecycle_event;
 
@@ -52,9 +53,12 @@ const common  = {
   eslint: {
     configFile: '.eslintrc'
   },
+  resolve: {
+    modulesDirectories: ['components', 'node_modules', './']
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Webpack React project',
+      title: packageJson.description,
       template: path.join(PATHS.app, 'index.ejs')
     }),
     new webpack.optimize.CommonsChunkPlugin({
