@@ -1,4 +1,4 @@
-# Webpack React Project
+# Search Github Repository Test
 
 Webpack/React boilerplate for Single Page Applications(SPA).
 

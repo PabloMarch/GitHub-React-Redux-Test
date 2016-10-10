@@ -1,5 +1,6 @@
 body {
   padding: 1em;
+  background-color: #efefef;
 }
 
 aside section h1 {
@@ -14,8 +15,26 @@ footer h1 {
 /* Bootstrap */
 .breadcrumb {
   margin-bottom: 0;
+  background: transparent;
 }
 
+.media {
+  padding: 14px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.media ul {
+  margin: 0;
+}
+
+.pagination a {
+  cursor: pointer;
+}
+
+
+/* App Styles */
 .text-gray {
   color: #666;
 }
@@ -32,4 +51,19 @@ footer h1 {
     background-color: red;
     fill: red;
   }
+}
+
+.search-clean-icon {
+  margin-right: 10px;
+  position: absolute;
+  top: 10px;
+  right: 100%;
+  font-size: 16px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.search-clean-icon:hover {
+  text-decoration: none;
+  color: red;
 }

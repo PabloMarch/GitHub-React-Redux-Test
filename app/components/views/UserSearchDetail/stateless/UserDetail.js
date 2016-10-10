@@ -14,7 +14,7 @@ export default function UserDetail ({ detail }) {
           <h4 className="media-heading" style={{textTransform: 'uppercase'}}>{detail.login}</h4>
           <ul className="list-unstyled">
             <li><strong>Type: </strong>{detail.type}</li>
-            <li><strong>Public Repositories: </strong>{detail.public_repos}</li>
+            <li><strong>Repositories: </strong>{detail.public_repos}</li>
             <li><a href={detail.html_url} target="_blank"><strong>Go to GitHub</strong></a></li>
           </ul>
         </div>

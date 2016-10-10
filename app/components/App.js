@@ -1,6 +1,9 @@
+import 'babel-polyfill';
 import React, { Component } from 'react';
+// partials components
 import TopHeader from './partials/TopHeader';
 import Footer from './partials/Footer';
+// main components
 import UserSearchDetail from './views/UserSearchDetail';
 
 class App extends Component {

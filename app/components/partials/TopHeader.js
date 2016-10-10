@@ -9,7 +9,7 @@ export default function TopHeader () {
             <img className="logo-goeuro" src="http://cdn-goeuro.com/beta/images/GoEuro-Logo.svg" title="GoEuro" alt="GoEuro" />
           </a>
         </div>
-        <a className="navbar-brand pull-right" href="#">GitHub user stalker</a>
+        <a className="navbar-brand pull-right" href="#">GitHub User Stalker</a>
       </nav>
     </header>
   )

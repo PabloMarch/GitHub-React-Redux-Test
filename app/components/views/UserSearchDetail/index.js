@@ -1,66 +1,128 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // commons components
 import SearchBox from 'common/SearchBox';
+import Pagination from 'common/Pagination';
 // stateless components
-import ResultsList from './ResultsList';
-import UserDetail from './UserDetail';
+import ResultsList from './stateless/ResultsList';
+import UserDetail from './stateless/UserDetail';
+// actions
+import {
+  updateUserName,
+  updatePageNumber,
+  fetchUserInfo,
+  fetchUserRepos,
+  resetData
+} from './actions';
 // css
 // import './style.scss';
-// dummy data
-import userData from 'json!data/userInfo.json'
-import reposData from 'json!data/userReposDetail.json';
 
 class UserSearchDetail extends Component {
 
-  constructor (props) {
-    super(props);
-    this.state = {
-      itemsPerPage: 5,
-      userData: null,
-      reposData: []
+  componentDidMount () {
+    this.input = document.getElementById('search-box');
+  }
+
+  // Search events
+  onSearchUserRepository = () => {
+    const { userName } = this.props.data;
+    const isUserNameValid = userName.length > 1;
+    // TODO: Validate 'isUserNameValid' on a sophisticated way
+    if (isUserNameValid) {
+      const { dispatch } = this.props;
+      dispatch(fetchUserInfo())
+        .then(response => {
+          if (response && response.id) {
+            dispatch(fetchUserRepos());
+          }
+        });
+    } else {
+      console.warn('onSearchUserRepository::validation:', 'Please add a valid user name.');
     }
   }
 
-  // Search Events
-  onSearchUserRepository = e => {
-    // console.warn('UserSearchDetail::onSearchUserRepository:: ', e.target.value);
-    this.setState({ userData: userData });
-    this.setState({ reposData: reposData });
-  }
-
-  onSearchUserTermChange = e => {
-    console.warn('UserSearchDetail::onSearchUserTermChange:: ', e.target.value);
+  onUserNameChange = e => {
+    if (e.keyCode === 13) {
+      this.onSearchUserRepository();
+    } else {
+      this.props.dispatch(updateUserName(e.target.value));
+    }
+    e.preventDefault();
   }
 
   // Pagination events
   onPageChanged = e => {
-    console.warn('UserSearchDetail::onPageChanged:: ', e + 1);
+    // console.warn('UserSearchDetail::onPageChanged:: ', e + 1);
+    const { dispatch } = this.props;
+    dispatch(updatePageNumber(e+1));
+    dispatch(fetchUserRepos());
+  }
+
+  onCleanUserName = e => {
+    this.cleanSearchField();
+    this.props.dispatch(resetData());
+  }
+
+  onTryAgainBtn = e => {
+    this.cleanSearchField();
+    e.preventDefault();
+  }
+
+  cleanSearchField () {
+    this.props.dispatch(updateUserName(''));
+    this.input.value = '';
+    this.input.focus();
   }
 
   render() {
-    const { itemsPerPage, userData, reposData } = this.state;
+    const { userName, itemsPerPage, pageNumber, userData, reposData } = this.props.data;
+    const { public_repos = 0 } = userData;
+
+    const totalItems = Math.ceil( public_repos / itemsPerPage);
+    const isUserValid = !!Object.keys(userData).length;
 
     return (
-      <main className="user-search-detail--wrap" role="main">
+      <main className="user-search-detail--wrap" role="main" style={{minHeight: '20em'}}>
         <h1 className="text-gray" style={{ marginBottom: '1em' }}>Search <strong>GitHub</strong> Repositories <small>by user</small></h1>
         <div className="row">
           <aside className="col-xs-12 col-md-3">
             <SearchBox
-              searchTerm=""
+              searchTerm={userName}
               onSearch={this.onSearchUserRepository}
-              onTermChange={this.onSearchUserTermChange} />
-            { userData &&
+              onTermChange={this.onUserNameChange}
+              onCleanField={this.onCleanUserName} />
+            { isUserValid &&
+              userData.id &&
               <UserDetail detail={userData} />
             }
           </aside>
+
           <section className="col-xs-12 col-md-9">
-            { reposData.length
-              ? <ResultsList
-                  itemsPerPage={itemsPerPage}
-                  totalItems={Math.ceil(userData.public_repos / itemsPerPage)}
-                  resultsList={reposData}
-                  onPageChanged={this.onPageChanged} />
-              : <p style={{ marginTop: 8 }}>This user was not found on our database. <a href="#focus-to-search-input">Please try again</a>.</p>
+            { isUserValid
+              ?
+              <div>
+                { userData.id
+                  ?
+                  <ResultsList userName={userData.login} resultsList={reposData} />
+                  :
+                  <p className="text-center" style={{ marginTop: 8 }}>
+                    This user was not found on our database.
+                    {' '}
+                    <a href="#focus-to-search-input" onClick={this.onTryAgainBtn}>Please try again</a>.
+                  </p>
+                }
+              </div>
+              :
+              <p className="text-center" style={{ marginTop: 8 }}>Please insert a username.</p>
+            }
+
+            { !!reposData.length &&
+              public_repos > itemsPerPage &&
+              <Pagination
+                current={pageNumber-1}
+                totalItems={totalItems}
+                itemsPerPage={itemsPerPage}
+                onPageChanged={this.onPageChanged} />
             }
           </section>
         </div>
@@ -69,4 +131,10 @@ class UserSearchDetail extends Component {
   }
 }
 
-export default UserSearchDetail;
+function mapStateToProps(state) {
+  return {
+    data: state.userSearchDetail
+  };
+}
+
+export default connect(mapStateToProps)(UserSearchDetail);
