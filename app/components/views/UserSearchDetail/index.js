@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // commons components
+import Loader from 'common/Loader';
 import SearchBox from 'common/SearchBox';
 import Pagination from 'common/Pagination';
 // stateless components
-import ResultsList from './stateless/ResultsList';
+import Results from './stateless/Results';
 import UserDetail from './stateless/UserDetail';
 // actions
 import {
@@ -63,7 +64,7 @@ class UserSearchDetail extends Component {
     this.props.dispatch(resetData());
   }
 
-  onTryAgainBtn = e => {
+  onTryAgainBtnClick = e => {
     this.cleanSearchField();
     e.preventDefault();
   }
@@ -75,9 +76,17 @@ class UserSearchDetail extends Component {
   }
 
   render() {
-    const { userName, itemsPerPage, pageNumber, userData, reposData } = this.props.data;
-    const { public_repos = 0 } = userData;
+    const {
+      userName,
+      itemsPerPage,
+      pageNumber,
+      userData,
+      reposData,
+      isFetchingUserData,
+      isFetchingReposData
+    } = this.props.data;
 
+    const { id, login, public_repos = 0 } = userData;
     const totalItems = Math.ceil( public_repos / itemsPerPage);
     const isUserValid = !!Object.keys(userData).length;
 
@@ -93,29 +102,25 @@ class UserSearchDetail extends Component {
               onCleanField={this.onCleanUserName} />
             { isUserValid &&
               userData.id &&
-              <UserDetail detail={userData} />
+              <Loader isLoading={isFetchingUserData}>
+                <UserDetail detail={userData} />
+              </Loader>
             }
           </aside>
-
           <section className="col-xs-12 col-md-9">
-            { isUserValid
-              ?
-              <div>
-                { userData.id
-                  ?
-                  <ResultsList userName={userData.login} resultsList={reposData} />
-                  :
-                  <p className="text-center" style={{ marginTop: 8 }}>
-                    This user was not found on our database.
-                    {' '}
-                    <a href="#focus-to-search-input" onClick={this.onTryAgainBtn}>Please try again</a>.
-                  </p>
-                }
-              </div>
-              :
-              <p className="text-center" style={{ marginTop: 8 }}>Please insert a username.</p>
+            { id &&
+              <h1 style={{ margin: '.3em 0 1.4em', fontSize: '1.4em' }}>
+                Results for user:
+                <span className="text-gray-light"> {login}</span>
+              </h1>
             }
-
+            <Loader isLoading={isFetchingReposData}>
+              <Results
+                reposData={reposData}
+                isUserValid={isUserValid}
+                isIdValid={id}
+                onTryAgainBtnClick={this.onTryAgainBtnClick} />
+            </Loader>
             { !!reposData.length &&
               public_repos > itemsPerPage &&
               <Pagination

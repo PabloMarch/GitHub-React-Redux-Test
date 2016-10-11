@@ -9,7 +9,8 @@ export default function SearchBox ({ searchTerm, onSearch, onTermChange, onClean
         className="form-control"
         placeholder="Username"
         defaultValue={searchTerm}
-        onKeyUp={onTermChange} />
+        onKeyUp={onTermChange}
+        style={{ paddingRight: '30px' }} />
 
       <span className="input-group-btn">
         { searchTerm &&

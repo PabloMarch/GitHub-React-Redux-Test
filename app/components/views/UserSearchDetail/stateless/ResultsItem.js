@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export default function ResultsItem ({ detail }) {
   // console.warn('ResultsItem:: ', detail);
+  const repoUrl = detail.clone_url.replace('.git', '');
   return (
     <article className="user-search-detail--item panel panel-primary">
       <header className="panel-heading">
@@ -16,6 +17,10 @@ export default function ResultsItem ({ detail }) {
       <div className="panel-body">
         <p style={{fontSize: '1.1em'}}>{detail.description}</p>
         <ul style={{ paddingLeft: '1.2em' }}>
+          { detail.homepage &&
+            <li><strong>Home Page:</strong> <a href={detail.homepage} target="_blank">{detail.homepage}</a></li>
+          }
+          <li><strong>GitHub:</strong> <a href={repoUrl} target="_blank">{repoUrl}</a></li>
           <li><strong>Created Date:</strong> {moment(detail.created_at).format('LL')}</li>
           <li><strong>Watchers:</strong> {detail.watchers}</li>
           <li><strong>Folks:</strong> {detail.forks}</li>

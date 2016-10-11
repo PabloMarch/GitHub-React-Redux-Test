@@ -16,10 +16,6 @@ export default function ResultsList ({ resultsList = [], userName }) {
 
   return (
     <div className="user-search-detail--list">
-      <h1 style={{ margin: '.3em 0 1.4em', fontSize: '1.4em' }}>
-        Results for user:
-        <span className="text-gray-light"> {userName}</span>
-      </h1>
       { resultsList.length
         ? renderPageList()
         : <p className="text-center">This user does not have any repository associated.</p>

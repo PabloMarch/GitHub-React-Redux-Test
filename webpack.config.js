@@ -54,7 +54,7 @@ const common  = {
     configFile: '.eslintrc'
   },
   resolve: {
-    modulesDirectories: ['components', 'node_modules', './']
+    modulesDirectories: ['node_modules', 'app', 'components' , './']
   },
   plugins: [
     new HtmlWebpackPlugin({

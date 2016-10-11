@@ -61,6 +61,7 @@ footer h1 {
   font-size: 16px;
   z-index: 1000;
   cursor: pointer;
+  color: #999;
 }
 
 .search-clean-icon:hover {

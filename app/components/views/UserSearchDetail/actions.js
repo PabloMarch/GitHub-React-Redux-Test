@@ -33,6 +33,7 @@ export function updatePageNumber (pageNumber) {
 }
 
 // ## Endpoints
+// # TODO: Refactoring, reuse fetch functions
 
 // User request actions
 function isFetchingUserData (isFetching) {
@@ -55,7 +56,7 @@ export function fetchUserInfo () {
       dispatch(isFetchingUserData(true));
       const { userName, itemsPerPage, pageNumber } = getState().userSearchDetail;
       const response = await( await( fetch(`${config.API_ENDPOINT}/users/${userName}`))).json();
-      dispatch(resetUserData());
+      // dispatch(resetUserData());
       if (response && Object.keys(response).length) {
         // console.warn('fetchUserInfo::response: ', response);
         dispatch(setUserData(response));
@@ -70,6 +71,26 @@ export function fetchUserInfo () {
     }
   }
 }
+
+// TODO: OPtimizing fetch using apiCaller utility
+// export function fetchUserInfo () {
+//   return (dispatch, getState) => {
+//     dispatch(isFetchingUserData(true));
+//
+//     const { userName, itemsPerPage, pageNumber } = getState().userSearchDetail;
+//     const response = callApi(`users/${userName}`).then(response => {
+//       if (response && Object.keys(response).length) {
+//         console.warn('fetchUserInfo::response: ', response);
+//         dispatch(setUserData(response));
+//         return response;
+//       }
+//       console.warn('fetchUserInfo::response::error: ', 'There is no account associated to this username.');
+//     });
+//
+//     dispatch(isFetchingUserData(false));
+//     return response;
+//   }
+// }
 
 // Repository request actions
 function isFetchingReposData (isFetching) {
