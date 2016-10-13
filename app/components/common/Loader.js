@@ -3,7 +3,7 @@ import ReactLoader from 'react-loader-advanced';
 
 export default class Loader extends Component {
   render() {
-    const spinner = <img src="http://www.ajaxload.info/cache/FF/FF/FF/00/6E/9A/36-1.gif" style={{ background: 'white', border: '3px solid white' }} />;
+    const spinner = <i className="glyphicon glyphicon-time" style={{ fontSize: '3em', display: 'block', color: '#337ab7' }} />;
 
     return (
       <ReactLoader

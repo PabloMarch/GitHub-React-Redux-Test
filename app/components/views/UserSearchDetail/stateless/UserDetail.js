@@ -15,7 +15,7 @@ export default function UserDetail ({ detail }) {
           <ul className="list-unstyled">
             <li><strong>Type: </strong>{detail.type}</li>
             <li><strong>Repositories: </strong>{detail.public_repos}</li>
-            <li><a href={detail.html_url} target="_blank"><strong>Go to GitHub</strong></a></li>
+            <li><a href={detail.html_url} target="_blank" className="github-url"><strong>Go to GitHub</strong></a></li>
           </ul>
         </div>
       </div>

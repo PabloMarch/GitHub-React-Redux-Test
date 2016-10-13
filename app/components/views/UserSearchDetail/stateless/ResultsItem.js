@@ -8,8 +8,8 @@ export default function ResultsItem ({ detail }) {
     <article className="user-search-detail--item panel panel-primary">
       <header className="panel-heading">
         <h1 className="panel-title" style={{ textTransform: 'capitalize' }}>
-          {detail.name.replace(/-/g, ' ')}
-          <a href={`github-mac://openRepo/${detail.clone_url}`} className="pull-right" title="Clone in Mac">
+          <span className="user-search-detail--title">{detail.name.replace(/-/g, ' ')}</span>
+          <a href={`github-mac://openRepo/${detail.clone_url}`} className="cta-clone pull-right" title="Clone in Mac">
             <i className="glyphicon glyphicon-save" />
           </a>
         </h1>
@@ -25,7 +25,6 @@ export default function ResultsItem ({ detail }) {
           <li><strong>Watchers:</strong> {detail.watchers}</li>
           <li><strong>Folks:</strong> {detail.forks}</li>
         </ul>
-        <p></p>
       </div>
     </article>
   )

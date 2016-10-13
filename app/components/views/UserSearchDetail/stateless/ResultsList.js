@@ -2,7 +2,7 @@ import React from 'react';
 // stateless components
 import ResultsItem from './ResultsItem';
 
-export default function ResultsList ({ resultsList = [], userName }) {
+export default function ResultsList ({ resultsList = [] }) {
   // console.warn('ResultsList:: ', detailList);
   function renderPageList () {
     return (

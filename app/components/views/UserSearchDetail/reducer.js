@@ -19,7 +19,7 @@ const initialState = {
   isFetchingReposData: false
 };
 
-export function userSearchDetail (state = initialState, action) {
+export const userSearchDetail = (state = initialState, action) => {
 
   switch (action.type) {
     case UPDATE_USERNAME:

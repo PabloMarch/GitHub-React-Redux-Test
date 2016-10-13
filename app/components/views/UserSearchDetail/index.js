@@ -99,8 +99,10 @@ class UserSearchDetail extends Component {
               searchTerm={userName}
               onSearch={this.onSearchUserRepository}
               onTermChange={this.onUserNameChange}
-              onCleanField={this.onCleanUserName} />
-            { isUserValid &&
+              onCleanField={this.onCleanUserName}
+            />
+            {
+              isUserValid &&
               userData.id &&
               <Loader isLoading={isFetchingUserData}>
                 <UserDetail detail={userData} />
@@ -108,7 +110,8 @@ class UserSearchDetail extends Component {
             }
           </aside>
           <section className="col-xs-12 col-md-9">
-            { id &&
+            {
+              id &&
               <h1 style={{ margin: '.3em 0 1.4em', fontSize: '1.4em' }}>
                 Results for user:
                 <span className="text-gray-light"> {login}</span>
@@ -119,15 +122,18 @@ class UserSearchDetail extends Component {
                 reposData={reposData}
                 isUserValid={isUserValid}
                 isIdValid={id}
-                onTryAgainBtnClick={this.onTryAgainBtnClick} />
+                onTryAgainBtnClick={this.onTryAgainBtnClick}
+              />
             </Loader>
-            { !!reposData.length &&
+            {
+              !!reposData.length &&
               public_repos > itemsPerPage &&
               <Pagination
                 current={pageNumber-1}
                 totalItems={totalItems}
                 itemsPerPage={itemsPerPage}
-                onPageChanged={this.onPageChanged} />
+                onPageChanged={this.onPageChanged}
+              />
             }
           </section>
         </div>
